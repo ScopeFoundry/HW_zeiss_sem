@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>764</width>
+    <height>571</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_3">
+   <item row="3" column="1">
+    <widget class="QPushButton" name="execute_pushButton">
+     <property name="text">
+      <string>&lt;--- Execute</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" rowspan="4">
+    <widget class="QGroupBox" name="SEM_groupBox_2">
+     <property name="title">
+      <string>Current SEM Settings</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_4">
+      <item row="3" column="0" colspan="2">
+       <widget class="QComboBox" name="select_aperture_comboBox">
+        <item>
+         <property name="text">
+          <string> 30 um</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string> 10 um</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string> 20 um</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string> 60 um</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>120 um</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>300 um</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QDoubleSpinBox" name="kV_doubleSpinBox"/>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLabel" name="label_18">
+        <property name="text">
+         <string>WD</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="2">
+       <widget class="QDoubleSpinBox" name="WD_doubleSpinBox"/>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="label_17">
+        <property name="text">
+         <string>kV</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="label_21">
+        <property name="text">
+         <string>Aperture</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QDoubleSpinBox" name="aperture_x_doubleSpinBox"/>
+      </item>
+      <item row="5" column="1">
+       <widget class="QDoubleSpinBox" name="stig_x_doubleSpinBox"/>
+      </item>
+      <item row="3" column="2">
+       <widget class="QCheckBox" name="high_current_checkBox">
+        <property name="text">
+         <string>High Current</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_20">
+        <property name="text">
+         <string>STIG</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="2">
+       <widget class="QDoubleSpinBox" name="aperture_y_doubleSpinBox"/>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="label_22">
+        <property name="text">
+         <string>Gun align</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <widget class="QDoubleSpinBox" name="gun_x_doubleSpinBox"/>
+      </item>
+      <item row="4" column="1" colspan="2">
+       <widget class="QLabel" name="label_19">
+        <property name="text">
+         <string>X                    Y</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="2">
+       <widget class="QDoubleSpinBox" name="gun_y_doubleSpinBox"/>
+      </item>
+      <item row="5" column="2">
+       <widget class="QDoubleSpinBox" name="stig_y_doubleSpinBox"/>
+      </item>
+      <item row="0" column="2">
+       <widget class="QPushButton" name="read_sem_pushButton">
+        <property name="text">
+         <string>Read Current</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="2">
+       <widget class="QCheckBox" name="hw_connect_checkBox">
+        <property name="text">
+         <string>HW Connect</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="2" rowspan="5">
+    <widget class="QGroupBox" name="recipe_settings_groupBox">
+     <property name="title">
+      <string>SEM Recipe Controls</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_25">
+        <property name="text">
+         <string>Aperture</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="3">
+       <widget class="QPushButton" name="recipes_filename_browse_pushButton">
+        <property name="text">
+         <string>...</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="1">
+       <widget class="QLineEdit" name="recipes_filename_lineEdit"/>
+      </item>
+      <item row="11" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Recipe File</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QLineEdit" name="new_recipe_name_lineEdit"/>
+      </item>
+      <item row="3" column="3">
+       <widget class="QDoubleSpinBox" name="recipe_WD_doubleSpinBox"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>WD</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="3">
+       <widget class="QComboBox" name="recipe_select_aperture_comboBox">
+        <item>
+         <property name="text">
+          <string> 30 um</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string> 10 um</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string> 20 um</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string> 60 um</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>120 um</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>300 um</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>Name</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="3">
+       <widget class="QCheckBox" name="recipe_high_current_checkBox">
+        <property name="text">
+         <string>High Current</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QDoubleSpinBox" name="recipe_kV_doubleSpinBox"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>kV</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0" colspan="4">
+       <widget class="QGroupBox" name="recipe_settings_align_groupBox">
+        <property name="title">
+         <string>Alignment</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_5">
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_8">
+           <property name="text">
+            <string>STIG</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QDoubleSpinBox" name="recipe_stig_x_doubleSpinBox"/>
+         </item>
+         <item row="4" column="1">
+          <widget class="QDoubleSpinBox" name="recipe_aperture_x_doubleSpinBox"/>
+         </item>
+         <item row="4" column="2">
+          <widget class="QDoubleSpinBox" name="recipe_aperture_y_doubleSpinBox"/>
+         </item>
+         <item row="5" column="1">
+          <widget class="QDoubleSpinBox" name="recipe_gun_x_doubleSpinBox"/>
+         </item>
+         <item row="5" column="2">
+          <widget class="QDoubleSpinBox" name="recipe_gun_y_doubleSpinBox"/>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="label_10">
+           <property name="text">
+            <string>Gun align</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_9">
+           <property name="text">
+            <string>Aperture</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QDoubleSpinBox" name="recipe_stig_y_doubleSpinBox"/>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="label_24">
+           <property name="text">
+            <string>X</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="label_26">
+           <property name="text">
+            <string>Y</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="10" column="1">
+       <spacer name="verticalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="2">
+    <widget class="QGroupBox" name="recipe_groupBox">
+     <property name="title">
+      <string>Recipes</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_23">
+        <property name="text">
+         <string>Date Modified:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLabel" name="recipe_date_modified_label">
+        <property name="text">
+         <string>DATE</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="4">
+       <widget class="QPushButton" name="delete_recipe_pushButton">
+        <property name="text">
+         <string>Delete Recipe</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_27">
+        <property name="text">
+         <string>Load Recipe</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1" colspan="4">
+       <widget class="QComboBox" name="recipe_name_comboBox">
+        <property name="maxVisibleItems">
+         <number>50</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>SEM additional controls</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_6">
+      <item row="0" column="0">
+       <widget class="QDoubleSpinBox" name="mag_doubleSpinBox"/>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Magnification</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QDoubleSpinBox" name="rotation_doubleSpinBox"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Rotation</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QDoubleSpinBox" name="contrast_doubleSpinBox"/>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Contrast</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QCheckBox" name="beam_blank_checkBox">
+        <property name="text">
+         <string>Beam blank</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QCheckBox" name="eht_checkBox">
+        <property name="text">
+         <string>EHT</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="1">
+    <widget class="QPushButton" name="save_recipe_pushButton">
+     <property name="text">
+      <string>---&gt; Save</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="3">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
