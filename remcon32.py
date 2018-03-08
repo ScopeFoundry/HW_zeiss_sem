@@ -356,7 +356,9 @@ class Remcon32(object):
         'returns x y z tilt rot M status'
         'for 5/6 axis stage, last param is 1.0 in motion, 0.0 done'
         resp = self.cmd_response('c95?')
-        return np.fromstring(resp,sep=' ', dtype=float) #array of 7 floats
+        resp_array = np.fromstring(resp,sep=' ', dtype=float) #array of 7 floats
+        print("get_stage_position -->", resp_array)
+        return resp_array
     
     def get_stage_initialized_state(self):
         'returns stage type (int) and is_initialized (int, 0 = initialized, 1 = NOT)'
@@ -373,6 +375,9 @@ class Remcon32(object):
         return OrderedDict(zip(names, pos_array))
 
     def set_stage_position(self, x, y, z, tilt, rot ):
+        if not self.get_stage_initialized_state():
+            raise IOError("REMCON Stage not initialized, cancelling move set_stage_position")
+            return
         'error if out of physical limits, can be dangerous'
         state = self.get_scm()
         self.scm_state(False)   #turn off scm so touch alarm works!
@@ -382,5 +387,76 @@ class Remcon32(object):
             self.scm_state(True) #restore scm if it returned a numerical value (else error string)
         return resp
         
+#     def set_stage_dx(self, dx):
+#         pos = self.get_stage_position_dict()
+#         print(pos)
+#         pos['x'] += dx
+#         print(pos)
+#         return self.set_stage_position(pos['x'], pos['y'], pos['z'], pos['tilt'], pos['rot'])
+            
+    def set_stage_position_kwargs(self, x=None, y=None,z=None,tilt=None, rot=None):
+        print("set_stage_position_kwargs", x, y,z, tilt, rot)
+        pos = self.get_stage_position_dict()
+        for ax, new_val in [('x', x), ('y', y), ('z',z), ('tilt', tilt), ('rot', rot)]:
+            if new_val is not None:
+                # TODO error check
+                pos[ax] = float(new_val)
+        print("moving to", pos)
+        return self.set_stage_position(pos['x'], pos['y'], pos['z'], pos['tilt'], pos['rot'])
+ 
+
+    def set_stage_delta(self, x=None, y=None,z=None,tilt=None, rot=None):
+        pos = self.get_stage_position_dict()
+        for ax, new_val in [('x', x), ('y', y), ('z',z), ('tilt', tilt), ('rot', rot)]:
+            if new_val is not None:
+                # TODO error check
+                pos[ax] += float(new_val)
         
-     
+        pos['rot'] %= 360.
+        return self.set_stage_position(pos['x'], pos['y'], pos['z'], pos['tilt'], pos['rot'])
+ 
+
+    def get_stage_moving(self):
+        'check for stage in motion, there may be a delay after set_stage_pos before motion flag is set...'
+        pos = self.get_stage_position_dict()
+        return bool(int(pos['status']))
+
+
+    def check_rotation_fault(self, current_pos, target_pos):
+        """Stage does not like crossing a fault position (340deg on CL Supra)
+        Given a starting- and end-point for rotation, determines a list of target rotations
+        to get the stage to final target_pos without passing fault position
+        """
+        
+        fault_pos = 340.
+        
+        def cw_dist(A, B):
+            return (B-A)%360.
+        def ccw_dist(A,B):
+            return (A-B)%360.
+        def fast_dist(A,B):
+            return min(ccw_dist(A,B), cw_dist(A,B))
+        def fast_dir(A,B):
+            if ccw_dist(A,B) > cw_dist(A,B): return +1
+            else:                            return -1
+        
+        def dist(A,B, direction):
+            if direction > 0: return cw_dist(A,B)
+            if direction < 0: return ccw_dist(A,B)
+        
+        print("A->B Fast dir {}".format(fast_dir(current_pos,target_pos)))
+            
+        print("A->F fast", fast_dist(current_pos, fault_pos), fast_dir(current_pos, fault_pos))
+        print("F->B fast", fast_dist(fault_pos,target_pos), fast_dir(fault_pos, current_pos))
+        d = fast_dir(current_pos,target_pos)
+        print("A->F", dist(current_pos, fault_pos, d), dist(current_pos, fault_pos, -d))
+        print("F->B", dist(fault_pos, target_pos, d) , dist(fault_pos, target_pos, -d))
+                      
+        if dist(current_pos, fault_pos, d)+ dist(fault_pos, target_pos,d) >= 180.:
+            return [target_pos]
+        else:
+            middle_target = current_pos + (360 - fast_dist(current_pos, target_pos))/2
+            middle_target %=360
+            print("A->M->B", fast_dist(current_pos, middle_target), fast_dist(middle_target, target_pos))
+            return [middle_target, target_pos]
+            

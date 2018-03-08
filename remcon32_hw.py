@@ -109,29 +109,30 @@ class SEM_Remcon_HW(HardwareComponent):
 
         # stage position: [x y z tilt rot M status]
         self.settings.New('stage_position',
-                          dtype=float, array=True, ro = True, fmt='%1.3f', initial=[0,0,0,0,0,0,0] )
+                          dtype=float, array=True, ro = True, fmt='%1.5f', initial=[0,0,0,0,0,0,0] )
 
         
-        self.settings.New('stage_x', dtype=float, ro=True)
+        lq_kwargs = dict(dtype=float, ro=True, spinbox_decimals=5)
+        self.settings.New('stage_x', unit='mm', **lq_kwargs)
         self.settings.stage_x.connect_lq_math( (self.settings.stage_position,), lambda pos: pos[0])
         
-        self.settings.New('stage_y', dtype=float, ro=True)
-        self.settings.stage_x.connect_lq_math( (self.settings.stage_position,), lambda pos: pos[1])
+        self.settings.New('stage_y', unit='mm',**lq_kwargs)
+        self.settings.stage_y.connect_lq_math( (self.settings.stage_position,), lambda pos: pos[1])
         
-        self.settings.New('stage_z', dtype=float, ro=True)
-        self.settings.stage_x.connect_lq_math( (self.settings.stage_position,), lambda pos: pos[2])
+        self.settings.New('stage_z', unit='mm', **lq_kwargs)
+        self.settings.stage_z.connect_lq_math( (self.settings.stage_position,), lambda pos: pos[2])
 
-        self.settings.New('stage_tilt', dtype=float, ro=True)
-        self.settings.stage_x.connect_lq_math( (self.settings.stage_position,), lambda pos: pos[3])
+        self.settings.New('stage_tilt', **lq_kwargs)
+        self.settings.stage_tilt.connect_lq_math( (self.settings.stage_position,), lambda pos: pos[3])
 
-        self.settings.New('stage_rot', dtype=float, ro=True)
-        self.settings.stage_x.connect_lq_math( (self.settings.stage_position,), lambda pos: pos[4])
+        self.settings.New('stage_rot', unit='deg', **lq_kwargs)
+        self.settings.stage_rot.connect_lq_math( (self.settings.stage_position,), lambda pos: pos[4])
 
-        self.settings.New('stage_M', dtype=float, ro=True)
-        self.settings.stage_x.connect_lq_math( (self.settings.stage_position,), lambda pos: pos[5])
+        self.settings.New('stage_M', **lq_kwargs)
+        self.settings.stage_M.connect_lq_math( (self.settings.stage_position,), lambda pos: pos[5])
 
         self.settings.New('stage_is_moving', dtype=bool, ro=True)
-        self.settings.stage_x.connect_lq_math( (self.settings.stage_position,), lambda pos: bool(pos[6]))
+        self.settings.stage_is_moving.connect_lq_math( (self.settings.stage_position,), lambda pos: bool(pos[6]))
 
         self.settings.New('stage_initialized', dtype=bool, ro=True)
         
