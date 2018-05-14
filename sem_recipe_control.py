@@ -137,15 +137,6 @@ class SEMRecipeControlMeasure(Measurement):
     
     def load_recipes_file(self):
         
-#         with open(self.settings['recipes_filename'], 'r', newline="") as recipes_file:
-#             reader = csv.reader(recipes_file)
-#             headers = next(reader)
-#             # fill self.recipes dict
-#             self.recipes.clear()        
-#             for line in reader:
-#                 recipe_dict = OrderedDict(zip(headers, line))
-#                 self.recipes.append(recipe_dict)
-    
         config = configparser.ConfigParser()
         config.optionxform = str
         config.read(self.settings['recipes_filename'])
