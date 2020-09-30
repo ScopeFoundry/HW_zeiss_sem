@@ -255,8 +255,8 @@ class SEM_Remcon_HW(HardwareComponent):
 #             for lq in self.settings.as_list(): 
 #                 lq.write_to_hardware()
 #                 #set detector offset to zero so analog data is quantitative
-        R.set_chan_bright(50,True)
-        R.set_chan_bright(50,False)
+        #R.set_chan_bright(50,True)
+        #R.set_chan_bright(50,False)
         self.read_from_hardware()
         
         self.SEM_load_ini() #get stored settings list
@@ -315,7 +315,10 @@ class Auger_Remcon_HW(SEM_Remcon_HW):
                 )
         
         for lq in self.settings.as_list(): 
-                lq.write_to_hardware()
+        #    lq.write_to_hardware()  # Better not to write all settings
+            lq.read_from_hardware()
+        self.read_from_hardware()
+
 
     
     def disconnect(self):
