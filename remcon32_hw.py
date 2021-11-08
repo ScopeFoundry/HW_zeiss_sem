@@ -11,7 +11,7 @@ Revised by Alan Buckley
 from ScopeFoundry import HardwareComponent
 from .remcon32 import Remcon32
 import configparser
-
+import time
 
 
 class SEM_Remcon_HW(HardwareComponent):
@@ -276,6 +276,15 @@ class SEM_Remcon_HW(HardwareComponent):
         config.read(fname)
         print( config.sections() )
         
+        
+    def threaded_update(self):
+        
+        self.settings.magnification.read_from_hardware()
+        self.settings.stage_position.read_from_hardware()
+        if self.settings['stage_is_moving']:
+            time.sleep(0.05)
+        else:
+            time.sleep(1.0)
 
 #         if 'app' in config.sections():
 #             for lqname, new_val in config.items('app'):

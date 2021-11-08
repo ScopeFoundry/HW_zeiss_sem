@@ -30,7 +30,7 @@ class SEMStageDeltaControl(Measurement):
             lq = self.remcon.settings.get_lq("stage_" + ax)
             lq.connect_to_widget(widget)
             
-        self.ui.read_current_pos_pushButton.clicked.connect(self.remcon.settings.stage_position.read_from_hardware)
+        self.ui.read_current_pos_pushButton.clicked.connect(lambda: self.remcon.settings.stage_position.read_from_hardware())
         
         self.settings.xy_step.connect_to_widget(self.ui.step_xy_comboBox)
         self.settings.z_step.connect_to_widget(self.ui.step_z_comboBox)

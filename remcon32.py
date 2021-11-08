@@ -8,8 +8,8 @@ Thicker wrapper, some commands left out on purpose (gun off for example)
 import serial
 import numpy as np
 import time
-from _collections import OrderedDict
-
+from collections import OrderedDict
+import threading
 
 class Remcon32(object):
     
@@ -24,6 +24,8 @@ class Remcon32(object):
         self.ser = serial.Serial(port=self.port, baudrate=9600, 
                                     bytesize= serial.EIGHTBITS, parity=serial.PARITY_NONE, 
                                     stopbits=serial.STOPBITS_ONE, timeout=self.timeout)
+        self.lock = threading.Lock()
+        
     
     def close(self):
         self.ser.close()
@@ -47,23 +49,24 @@ class Remcon32(object):
         some commands like read scm return errors if the scm is off, likewise out of range arguments
             if error_ok is set, this info returned instead of throwing errors
         '''
-        self.ser.reset_input_buffer()    #clear any leftover stuff
-        cmd = cmd.encode('ascii') + b'\r'
-        self.ser.write(cmd)
-
-        r1 =self.ser.readline() #is '@\r\n' for success or '#\r\n' for failure
-        r2 =self.ser.readline() 
-        #is '>[data]\r\n' for success or '* errnum\r\n' for failure
-        #[data] may be empty for set commands, returns info for get
+        with self.lock:
+            self.ser.reset_input_buffer()    #clear any leftover stuff
+            cmd = cmd.encode('ascii') + b'\r'
+            self.ser.write(cmd)
+    
+            r1 =self.ser.readline() #is '@\r\n' for success or '#\r\n' for failure
+            r2 =self.ser.readline() 
+            #is '>[data]\r\n' for success or '* errnum\r\n' for failure
+            #[data] may be empty for set commands, returns info for get
 
         if ( (len(r1)<1) or (r1[0]!=ord(b'@')) or (len(r2)<1) or (r2[0]!=ord(b'>')) ):
             if error_ok:
                 return r2.decode('ascii')
             elif r2[0]==ord(b'*'):
                 key = int(r2[1:-2])
-                return 'remcon error {} {}'.format(key, self.remcon_error[key])
+                raise IOError( 'remcon error {} {}'.format(key, self.remcon_error[key]))
             else:
-                return 'remcon error, command: {} text {} {}'.format( cmd, r1, r2)        
+                raise IOError( 'remcon error, command: {} text {} {}'.format( cmd, r1, r2))        
         if len(r2) > 3:
             #return data, if any, always single line
             return r2[1:-2].decode('ascii')
@@ -411,6 +414,17 @@ class Remcon32(object):
             if new_val is not None:
                 # TODO error check
                 pos[ax] += float(new_val)
+        
+        pos['rot'] %= 360.
+        return self.set_stage_position(pos['x'], pos['y'], pos['z'], pos['tilt'], pos['rot'])
+    
+    def set_stage_abs_xy_rot(self, x=None, y=None, rot=None):
+        "Safer absolute move that does not allow changes to sample crash prone axes (z, tilt)"
+        pos = self.get_stage_position_dict()
+        for ax, new_val in [('x', x), ('y', y), ('rot', rot)]:
+            if new_val is not None:
+                # TODO error check
+                pos[ax] = float(new_val)
         
         pos['rot'] %= 360.
         return self.set_stage_position(pos['x'], pos['y'], pos['z'], pos['tilt'], pos['rot'])
